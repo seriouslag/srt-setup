@@ -8,7 +8,7 @@ SRT is 2-3 times faster than RTMP - haivision.com
 ### On PC
 - install latest OBS 
 - install the latest NodeJS LTS version (is this needed, I do not believe so)
-	  [download](https://nodejs.org/)
+    - [download](https://nodejs.org/)
 
 ### On Phone
 - install Larix broadcaster
