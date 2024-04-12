@@ -20,8 +20,13 @@ SRT is 2-3 times faster than RTMP - haivision.com
 
 ## Setup - locally
 
-- Find IP address - local
-	- which will be referenced as `{local_ip}` from now on
+- Find IPV4 IP address - local
+    - which will be referenced as `{local_ip}` from now on
+    - on mac:
+        - open terminal and enter: `ifconfig | grep inet | grep broadcast`
+    - on windows:
+        - open powershell or cmd and enter: `ipconfig`
+            - It will be listed on the line of `IPv4 Address`
 
 ### Larix on a Phone
 
