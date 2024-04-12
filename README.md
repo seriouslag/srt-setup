@@ -7,29 +7,26 @@ SRT is 2-3 times faster than RTMP - haivision.com
 ## Installation
 ### On PC
 - install latest OBS 
-- install latest nodejs LTS
-	  https://nodejs.org/es
-- obs websockets
-	- https://github.com/obsproject/obs-websocket
-	- https://github.com/obsproject/obs-websocket/releases
-		- install v5.0.1 or greater
-		- do not install `compat` versions
-	- this will allow us to remotely control OBS so we can start/stop the stream
+- install the latest NodeJS LTS version
+	  [download](https://nodejs.org/)
 
 ### On Phone
 - install Larix broadcaster
 	- [Android](https://play.google.com/store/apps/details?id=com.wmspanel.larix_broadcaster)
-	- [iOS](https://apps.apple.com/app/larix-broadcaster/id1042474385)
+	- [iOS](https://apps.apple.com/app/larix-broadcaster/id1042474385)]
+- install StreamCtrl
+        - [Android](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&pli=1)
+        - iOS - TODO
 
 ## Setup - locally
 
 - Find IP address - local
 	- which will be referenced as `{local_ip}` from now on
 
-### Larix on Phone
+### Larix on a Phone
 
 - name: `Local`
-- URL: srt://`{local_ip}`:22222
+- URL: srt://`{local_ip}`:19492
 - Mode: `Audio + Video`
 - Srt sender mode: `Caller`
 - latency (msec): `2000`
@@ -37,35 +34,51 @@ SRT is 2-3 times faster than RTMP - haivision.com
 ### OBS
 - Click add source
 	- webcam
-		- name - IRL Phone
-		- Uncheck all boxes
-		- Set reconnect delay to 1.5
-		- input: srt://`${local_ip}`:22222?connection_timeout=3000&latency=2000000&listen_timeout=5000000&mode=listener&smoother=live&transtype=live&timeout=5000000
+	- name - IRL Phone
+	- Uncheck all boxes
+   	- Set reconnect delay to 1.5
+	- input: srt://`${local_ip}`:19492?connection_timeout=3000&latency=2000000&listen_timeout=5000000&mode=listener&smoother=live&transtype=live&timeout=5000000
+- Setup Websockets
+	- Open Tools (drop down) <  WebSocket Server Settings
+	- Check `Enable Web Server`
+	- Check `Enable System Tray Alerts`
+	- Set Server Port to `44555`
+	- Press `Generate Password`
+	- Click Show Connect Info
 
-After Larix and OBS are setup
-- Navigate to main screen on Larix
-- Hit grey button to go Live
+#### After Larix and OBS are setup
+- Navigate to the main screen on Larix
+- Hit the grey button to go Live
 - Should see phone camera in OBS in a few seconds
 
+#### Remote control OBS
+- In OBS, navigate to the Websocket Server Settings
+    - Tools < Websocket Server Settings
+    - Click `Show Connect Info`
+- Open StreamCtrl on phone
+- Click floating `+` Button
+- Select OBS from the popup menu
+- Click OK on popup
+- Scan QR Code
 
 ## Setup - Remote
 
-### Get Static IP address
+### Get a Static IP address
 - Navigate to noip.com
 - Enter a hostname, select `.hopto.org`
 	- Hostname can be anything you like
 	- Will reference what you entered as Hostname as `{hostname}` from now on
 - Click `Sign Up`
-- enter a password - do not include spaces or special characters, and keep it under 12 characters of length
+- enter a password - do not include spaces or special characters, and keep it under 12 characters in length
 - Check the terms of service
 - Uncheck the Email Opt-in
 - Click `Free Sign Up`
 - Verify Email
-	- Click Link in email
+	- Click the link in the email
 	- Select Personal
 	- Select Remote Access and `Continue`
 	- Click `Go to My Account` in the FREE Dynamic DNS card
-- ON the dashboard - under create a Hostname
+- On the dashboard - under create a Hostname
 	- Enter Hostname: `{hostname}`
 	- Domain: `hopto.org`
 	- Record Type: `DNS Host A`
@@ -74,17 +87,46 @@ After Larix and OBS are setup
 - Navigate to Dashboard - you may be prompted with a Complete your Account Configuration popup
 	- Click `Add Now`
 	- Enable Two-Factor Authentication
+- Setup DDNS Client
+    - This automatically updates your non-static IP address to noip.com so your new hostname will route to your IP.
+    - [Client](https://my.noip.com/dynamic-dns/duc)
+    - Open DUCSetup_v4_1_1.exe and install the DUC.
+    - Enter your No-IP username and password.
+    - Select the hostname(s) or group(s) you would like to update.
+ 	- Click Save
 
 ### Port-Forward from your router
-- Set up rule to forward all connections
-	  incoming port: 22222
-	  destination the computers IP: `{local_ip}` port: 22222
-	  protocol: BOTH
+
+#### SRT connection
+  - Set up a rule to forward all connections
+      - incoming port: 22222
+	  - destination the computers IP: `{local_ip}` port: 19492
+	  - protocol: BOTH
+
+#### OBS Websocket
+  - Set up a rule to forward all connections
+	  - incoming port: 44555
+	  - destination the computers IP: `{local_ip}` port: 44555
+	  - protocol: BOTH
+
+#### Remote control OBS
+- In OBS, navigate to the Websocket Server Settings
+    - Tools < Websocket Server Settings
+    - Click `Show Connect Info`
+- Open StreamCtrl on the phone
+- Click floating `+` Button
+- Select OBS from the popup menu
+- Click OK on the popup
+- Scan QR Code
+- Edit the new connection
+- Name the new connection `Remote`
+- Set the IP Address/Host to `{hostname}`.hopto.org
+- Click the save button (floating checkmark)
 
 ### Setup Larix
 - create a new connection
 - Name: Mobile
-- URL: srt://`{hostname}`:22222
+- URL: srt://`{hostname}`:19492
 - Mode: `Audio + Video`
 - Srt sender mode: `Caller`
 - latency (msec): `2000`
