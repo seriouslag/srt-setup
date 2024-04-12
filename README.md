@@ -13,7 +13,7 @@ SRT is 2-3 times faster than RTMP - haivision.com
 ### On Phone
 - install Larix broadcaster
 	- [Android](https://play.google.com/store/apps/details?id=com.wmspanel.larix_broadcaster)
-	- [iOS](https://apps.apple.com/app/larix-broadcaster/id1042474385)]
+	- [iOS](https://apps.apple.com/app/larix-broadcaster/id1042474385)
 - install StreamCtrl
         - [Android](https://play.google.com/store/apps/details?id=dev.t4ils.obs_remote&pli=1)
         - iOS - TODO
